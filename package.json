@@ -1,0 +1,18 @@
+{
+  "name": "vite-vue-microfrontends",
+  "version": "0.0.0",
+  "description": "Vite + Module Federation is now possible",
+  "main": "index.js",
+  "scripts": {
+    "serve": "npm start --prefix remote dev && npm start --prefix host dev",
+    "build": "npm --filter vite-vue-microfrontends_* --parallel run build",
+    "preview:host": "npm --prefix ./host run build && npm --prefix ./host run preview",
+    "preview:remote": "npm --prefix ./remote run build && npm --prefix ./remote run preview",
+    "e2e:ci": "pnpm preview:remote && pnpm preview:host & wait-on http-get://localhost:4173/ && npx cypress run --config-file ../cypress-e2e/config/cypress.config.ts --config '{\"supportFile\": \"../cypress-e2e/support/e2e.ts\"}' --spec \"./e2e/tests/runAll.cy.ts\" --browser=chrome"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "nohup": "0.1.0",
+    "wait-on": "7.2.0"
+  }
+}
